@@ -16,7 +16,7 @@
   - [🔭Acknowledgments ](#acknowledgments-)
   - [📝 License ](#-license-)
 
-# 🎯 Decode a Morse Code Message<a name="about-project"></a>
+# 🎯 School Liberary <a name="about-project"></a>
 
 This project featues basic functionality on how to decode a morse-coded message
 
@@ -30,9 +30,9 @@ This project featues basic functionality on how to decode a morse-coded message
 
 ### Key Features <a name="key-features"></a>
 
-- **Decode morse Char**
-- **Decode morse word**
-- **Decode morse message**
+- **System for liberary**
+- **Teacher class**
+- **Student class**
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 💻 Getting Started <a name="getting-started"></a>
@@ -51,28 +51,18 @@ you have to install those in your local machine.
 Clone the project.
 
 ```bash
-  git clone "git@github.com:Katended/morse-code.git"
+  git clone "https://github.com/husush23/School-liberary.gitt"
 ```
 
 Go to the project directory.
 
 ```bash
-  cd morse-code
+  cd main
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 👤 Authors <a name="author"></a>
-
-👤 **Author1**
-👤 **Katende David**
-
-- GitHub: [@Katended](https://github.com/Katended/)
-- LinkedIn: [Katende David](https://www.linkedin.com/in/katendedavid/)
-
-👤 **Hussein Hashi**
-
-👤 **Author2**
+## 👤 Author <a name="author"></a>
 
 👤 **Hussein Hashi**
 
@@ -85,8 +75,6 @@ Go to the project directory.
 ## 🤝 Contributing <a name="contributing"></a>
 
 Contributions, issues, and feature requests are welcome!
-
-Feel free to check the [issues page](https://github.com/Katended/morse-code/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
