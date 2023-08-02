@@ -12,6 +12,15 @@ class Person < Nameable
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = []
+  end
+
+  def add_rental(rental)
+    @rentals << rental
+  end
+
+  def rentals
+    @rentals
   end
 
   def can_use_services?
@@ -28,6 +37,7 @@ class Person < Nameable
     @age >= 18
   end
 end
+
 
 person = Person.new(name: 'Maximilianus', age: 22)
 puts person.correct_name

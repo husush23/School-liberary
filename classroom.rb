@@ -1,4 +1,5 @@
 require_relative "student"
+
 class Claasroom
     attr_accessor :label, :students
 
