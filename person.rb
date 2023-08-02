@@ -4,7 +4,7 @@ require_relative 'trim_decorator'
 
 class Person < Nameable
   attr_accessor :name, :age
-  attr_reader :id
+  attr_reader :id, :rentals
 
   def initialize(age:, name: 'unknown', parent_permission: true)
     super()
@@ -17,10 +17,6 @@ class Person < Nameable
 
   def add_rental(rental)
     @rentals << rental
-  end
-
-  def rentals
-    @rentals
   end
 
   def can_use_services?
