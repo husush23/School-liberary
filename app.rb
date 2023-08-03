@@ -136,16 +136,10 @@ class App
     when 4 then create_book
     when 5 then create_rental
     when 6 then rental_list
-    when 7
+    else
       puts 'Thank you for using this app.'
       exit
-    else
-      invalid_option
     end
-  end
-
-  def invalid_option
-    puts 'Invalid option! Please choose a valid option.'
   end
 
   def run
