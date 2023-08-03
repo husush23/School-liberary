@@ -130,24 +130,22 @@ class App
 
   def choose_num(number)
     case number
-    when 1
-      list_all_books
-    when 2
-      list_all_people
-    when 3
-      create_person
-    when 4
-      create_book
-    when 5
-      create_rental
-    when 6
-      rental_list
+    when 1 then list_all_books
+    when 2 then list_all_people
+    when 3 then create_person
+    when 4 then create_book
+    when 5 then create_rental
+    when 6 then rental_list
     when 7
       puts 'Thank you for using this app.'
       exit
     else
-      puts 'Invalid option! Please choose a valid option.'
+      invalid_option
     end
+  end
+
+  def invalid_option
+    puts 'Invalid option! Please choose a valid option.'
   end
 
   def run
