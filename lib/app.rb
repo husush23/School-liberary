@@ -57,7 +57,7 @@ class App
     parent_permission = gets.chomp.downcase == 'y'
     print 'Classroom: '
     classroom = 'xx'
-     student = @person_factory.create_student(age, name, parent_permission, classroom)
+    student = @person_factory.create_student(age, name, parent_permission, classroom)
     @people.push(student)
     puts 'Student created successfully.'
   end
@@ -99,7 +99,6 @@ class App
     puts 'Book created successfully.'
   end
 
-  
   def create_rental
     return if @books.empty? || @people.empty?
 
