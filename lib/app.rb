@@ -1,8 +1,8 @@
-require_relative 'student'
+require_relative 'person_factory'
 require_relative 'person'
-require_relative 'teacher'
-require_relative 'book'
-require_relative 'rental'
+
+require_relative 'book_factory'
+require_relative 'rental_manager'
 
 class App
   def initialize
@@ -10,6 +10,8 @@ class App
     @people = []
     @rentals = []
     @person_factory = PersonFactory.new
+    @book_factory = BookFactory.new
+    @rental_manager = RentalManager.new
   end
 
   def display_options
@@ -92,11 +94,12 @@ class App
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
-    book = Book.new(title, author)
+    book = @book_factory.create_book(title, author)
     @books.push(book)
     puts 'Book created successfully.'
   end
 
+  
   def create_rental
     return if @books.empty? || @people.empty?
 
@@ -108,22 +111,20 @@ class App
     person_index = gets.chomp.to_i - 1
     print 'Date (DD-MM-YYYY): '
     date = gets.chomp
-    rental = Rental.new(date, @people[person_index], @books[book_index])
-    @rentals.push(rental)
-    puts 'Rental created successfully.'
+
+    @rental_manager.create_rental(date, @people[person_index], @books[book_index])
   end
 
   def rental_list
-    return if @rentals.empty?
-
     print 'ID of person: '
     person_id = gets.chomp.to_i
-    selected_rentals = @rentals.select { |rental| rental.person.id == person_id }
-    if selected_rentals.empty?
+    rentals = @rental_manager.find_rentals_for_person(person_id)
+
+    if rentals.empty?
       puts 'No rentals found for the given person ID.'
     else
       puts 'Rentals List:'
-      selected_rentals.each do |rental|
+      rentals.each do |rental|
         puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
       end
     end
@@ -150,17 +151,6 @@ class App
       choose_num(number)
       puts ''
     end
-  end
-end
-
-
-class PersonFactory
-  def create_student(age, name, parent_permission, classroom)
-    Student.new(age: age, name: name, parent_permission: parent_permission, classroom: classroom)
-  end
-  
-  def create_teacher(age, name, specialization)
-    Teacher.new(age:age, name:name, specialization:specialization)
   end
 end
 
