@@ -9,6 +9,7 @@ class App
     @books = []
     @people = []
     @rentals = []
+    @person_factory = PersonFactory.new
   end
 
   def display_options
@@ -53,8 +54,8 @@ class App
     print 'Has parent permission? [Y/N]: '
     parent_permission = gets.chomp.downcase == 'y'
     print 'Classroom: '
-    # classroom = gets.chomp
-    student = Student.new(age: age, name: name, parent_permission: parent_permission, classroom: 'classroom')
+    classroom = 'xx'
+     student = @person_factory.create_student(age, name, parent_permission, classroom)
     @people.push(student)
     puts 'Student created successfully.'
   end
@@ -67,7 +68,7 @@ class App
     name = gets.chomp
     print 'Specialization: '
     specialization = gets.chomp
-    teacher = Teacher.new(age: age, name: name, specialization: specialization)
+    teacher = @person_factory.create_teacher(age, name, specialization)
     @people.push(teacher)
     puts 'Teacher created successfully.'
   end
@@ -151,6 +152,18 @@ class App
     end
   end
 end
+
+
+class PersonFactory
+  def create_student(age, name, parent_permission, classroom)
+    Student.new(age: age, name: name, parent_permission: parent_permission, classroom: classroom)
+  end
+  
+  def create_teacher(age, name, specialization)
+    Teacher.new(age:age, name:name, specialization:specialization)
+  end
+end
+
 
 app = App.new
 app.run
