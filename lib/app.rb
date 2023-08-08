@@ -1,6 +1,5 @@
+# app.rb (lib/app.rb)
 require_relative 'person_factory'
-require_relative 'person'
-
 require_relative 'book_factory'
 require_relative 'rental_manager'
 
@@ -25,6 +24,31 @@ class App
     puts '7 - Exit'
   end
 
+  def run
+    loop do
+      display_options
+      number = gets.chomp.to_i
+      choose_num(number)
+      puts ''
+    end
+  end
+
+  private
+
+  def choose_num(number)
+    case number
+    when 1 then list_all_books
+    when 2 then list_all_people
+    when 3 then create_person
+    when 4 then create_book
+    when 5 then create_rental
+    when 6 then rental_list
+    else
+      puts 'Thank you for using this app.'
+      exit
+    end
+  end
+
   def list_all_books
     if @books.empty?
       puts 'No books available.'
@@ -47,34 +71,6 @@ class App
     end
   end
 
-  def create_student
-    puts 'Creating a student...'
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Has parent permission? [Y/N]: '
-    parent_permission = gets.chomp.downcase == 'y'
-    print 'Classroom: '
-    classroom = 'xx'
-    student = @person_factory.create_student(age, name, parent_permission, classroom)
-    @people.push(student)
-    puts 'Student created successfully.'
-  end
-
-  def create_teacher
-    puts 'Creating a teacher...'
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Specialization: '
-    specialization = gets.chomp
-    teacher = @person_factory.create_teacher(age, name, specialization)
-    @people.push(teacher)
-    puts 'Teacher created successfully.'
-  end
-
   def create_person
     puts 'Do you want to create a student (1) or a teacher (2)? [Enter the number]: '
     num_person = gets.chomp.to_i
@@ -88,12 +84,28 @@ class App
     end
   end
 
+  def create_student
+    age = get_positive_integer('Age: ')
+    name = get_string('Name: ')
+    parent_permission = get_boolean('Has parent permission? [Y/N]: ')
+    classroom = 'xx'
+    student = @person_factory.create_student(age, name, parent_permission, classroom)
+    @people.push(student)
+    puts 'Student created successfully.'
+  end
+
+  def create_teacher
+    age = get_positive_integer('Age: ')
+    name = get_string('Name: ')
+    specialization = get_string('Specialization: ')
+    teacher = @person_factory.create_teacher(age, name, specialization)
+    @people.push(teacher)
+    puts 'Teacher created successfully.'
+  end
+
   def create_book
-    puts 'Creating a book...'
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
+    title = get_string('Title: ')
+    author = get_string('Author: ')
     book = @book_factory.create_book(title, author)
     @books.push(book)
     puts 'Book created successfully.'
@@ -129,27 +141,25 @@ class App
     end
   end
 
-  def choose_num(number)
-    case number
-    when 1 then list_all_books
-    when 2 then list_all_people
-    when 3 then create_person
-    when 4 then create_book
-    when 5 then create_rental
-    when 6 then rental_list
-    else
-      puts 'Thank you for using this app.'
-      exit
+  def get_positive_integer(prompt)
+    loop do
+      print prompt
+      input = gets.chomp
+      return input.to_i if input.match?(/^\d+$/) && input.to_i >= 0
+
+      puts 'Please enter a valid positive integer.'
     end
   end
 
-  def run
-    loop do
-      display_options
-      number = gets.chomp.to_i
-      choose_num(number)
-      puts ''
-    end
+  def get_string(prompt)
+    print prompt
+    gets.chomp
+  end
+
+  def get_boolean(prompt)
+    print prompt
+    input = gets.chomp.downcase
+    input == 'y' || input == 'yes'
   end
 end
 
