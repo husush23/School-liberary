@@ -1,14 +1,16 @@
-require_relative 'student'
-require_relative 'person'
-require_relative 'teacher'
-require_relative 'book'
-require_relative 'rental'
+# app.rb (lib/app.rb)
+require_relative 'person_factory'
+require_relative 'book_factory'
+require_relative 'rental_manager'
 
 class App
   def initialize
     @books = []
     @people = []
     @rentals = []
+    @person_factory = PersonFactory.new
+    @book_factory = BookFactory.new
+    @rental_manager = RentalManager.new
   end
 
   def display_options
@@ -20,6 +22,31 @@ class App
     puts '5 - Create a rental'
     puts '6 - List all rentals for a given person ID'
     puts '7 - Exit'
+  end
+
+  def run
+    loop do
+      display_options
+      number = gets.chomp.to_i
+      choose_num(number)
+      puts ''
+    end
+  end
+
+  private
+
+  def choose_num(number)
+    case number
+    when 1 then list_all_books
+    when 2 then list_all_people
+    when 3 then create_person
+    when 4 then create_book
+    when 5 then create_rental
+    when 6 then rental_list
+    else
+      puts 'Thank you for using this app.'
+      exit
+    end
   end
 
   def list_all_books
@@ -44,34 +71,6 @@ class App
     end
   end
 
-  def create_student
-    puts 'Creating a student...'
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Has parent permission? [Y/N]: '
-    parent_permission = gets.chomp.downcase == 'y'
-    print 'Classroom: '
-    # classroom = gets.chomp
-    student = Student.new(age: age, name: name, parent_permission: parent_permission, classroom: 'classroom')
-    @people.push(student)
-    puts 'Student created successfully.'
-  end
-
-  def create_teacher
-    puts 'Creating a teacher...'
-    print 'Age: '
-    age = gets.chomp.to_i
-    print 'Name: '
-    name = gets.chomp
-    print 'Specialization: '
-    specialization = gets.chomp
-    teacher = Teacher.new(age: age, name: name, specialization: specialization)
-    @people.push(teacher)
-    puts 'Teacher created successfully.'
-  end
-
   def create_person
     puts 'Do you want to create a student (1) or a teacher (2)? [Enter the number]: '
     num_person = gets.chomp.to_i
@@ -85,13 +84,29 @@ class App
     end
   end
 
+  def create_student
+    age = get_positive_integer('Age: ')
+    name = get_string('Name: ')
+    parent_permission = get_boolean('Has parent permission? [Y/N]: ')
+    classroom = 'xx'
+    student = @person_factory.create_student(age, name, parent_permission, classroom)
+    @people.push(student)
+    puts 'Student created successfully.'
+  end
+
+  def create_teacher
+    age = get_positive_integer('Age: ')
+    name = get_string('Name: ')
+    specialization = get_string('Specialization: ')
+    teacher = @person_factory.create_teacher(age, name, specialization)
+    @people.push(teacher)
+    puts 'Teacher created successfully.'
+  end
+
   def create_book
-    puts 'Creating a book...'
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-    book = Book.new(title, author)
+    title = get_string('Title: ')
+    author = get_string('Author: ')
+    book = @book_factory.create_book(title, author)
     @books.push(book)
     puts 'Book created successfully.'
   end
@@ -107,48 +122,44 @@ class App
     person_index = gets.chomp.to_i - 1
     print 'Date (DD-MM-YYYY): '
     date = gets.chomp
-    rental = Rental.new(date, @people[person_index], @books[book_index])
-    @rentals.push(rental)
-    puts 'Rental created successfully.'
+
+    @rental_manager.create_rental(date, @people[person_index], @books[book_index])
   end
 
   def rental_list
-    return if @rentals.empty?
-
     print 'ID of person: '
     person_id = gets.chomp.to_i
-    selected_rentals = @rentals.select { |rental| rental.person.id == person_id }
-    if selected_rentals.empty?
+    rentals = @rental_manager.find_rentals_for_person(person_id)
+
+    if rentals.empty?
       puts 'No rentals found for the given person ID.'
     else
       puts 'Rentals List:'
-      selected_rentals.each do |rental|
+      rentals.each do |rental|
         puts "Date: #{rental.date}, Book: \"#{rental.book.title}\" by #{rental.book.author}"
       end
     end
   end
 
-  def choose_num(number)
-    case number
-    when 1 then list_all_books
-    when 2 then list_all_people
-    when 3 then create_person
-    when 4 then create_book
-    when 5 then create_rental
-    when 6 then rental_list
-    else
-      puts 'Thank you for using this app.'
-      exit
+  def get_positive_integer(prompt)
+    loop do
+      print prompt
+      input = gets.chomp
+      return input.to_i if input.match?(/^\d+$/) && input.to_i >= 0
+
+      puts 'Please enter a valid positive integer.'
     end
   end
 
-  def run
-    loop do
-      display_options
-      number = gets.chomp.to_i
-      choose_num(number)
-      puts ''
-    end
+  def get_string(prompt)
+    print prompt
+    gets.chomp
+  end
+
+  def get_boolean(prompt)
+    print prompt
+    input = gets.chomp.downcase
+    %w[y yes].include?(input)
   end
 end
 
