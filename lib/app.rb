@@ -159,7 +159,7 @@ class App
   def get_boolean(prompt)
     print prompt
     input = gets.chomp.downcase
-    input == 'y' || input == 'yes'
+    %w[y yes].include?(input)
   end
 end
 
