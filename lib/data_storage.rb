@@ -52,10 +52,8 @@ class DataStorage
     end
   end
 
-  private_class_method
-
   def self.save_data(file_name, data)
-    Dir.mkdir(DATA_DIR) unless Dir.exist?(DATA_DIR)
+    FileUtils.mkdir_p(DATA_DIR)
     file_path = File.join(DATA_DIR, file_name)
 
     File.open(file_path, 'w') do |file|

@@ -8,14 +8,14 @@ class Message
   end
 
   def error_message(text)
-    puts "you write  the wronge #{text}"
+    puts "you write  a wronge #{text}"
   end
 
   def error_rental(books)
     if books.empty?
-      puts 'The books are empty ❌'
+      puts 'No books are saved'
     else
-      puts 'The people are not empty ❌'
+      puts 'No people in record'
     end
   end
 end
