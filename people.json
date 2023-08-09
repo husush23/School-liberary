@@ -12,5 +12,12 @@
     "age": 434,
     "specialization": "fsd",
     "id": 475
+  },
+  {
+    "person_type": 2,
+    "name": "test",
+    "age": 34,
+    "specialization": "amth",
+    "id": 37
   }
 ]
