@@ -1,4 +1,4 @@
-require_relative '../lib/base_decorator'  # Adjust the path to the actual path of your class
+require_relative '../lib/base_decorator' # Adjust the path to the actual path of your class
 
 describe BaseDecorator do
   let(:nameable) { instance_double(Nameable) }
