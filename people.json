@@ -1,0 +1,16 @@
+[
+  {
+    "person_type": 1,
+    "name": "Abdi",
+    "age": 12,
+    "parent_permission": true,
+    "id": 985
+  },
+  {
+    "person_type": 2,
+    "name": "dfsd",
+    "age": 434,
+    "specialization": "fsd",
+    "id": 475
+  }
+]
